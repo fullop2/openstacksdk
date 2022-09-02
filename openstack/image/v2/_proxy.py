@@ -16,6 +16,7 @@ import warnings
 from openstack import exceptions
 from openstack.image import _base_proxy
 from openstack.image.v2 import image as _image
+from openstack.image.v2 import metadef as _metadef
 from openstack.image.v2 import member as _member
 from openstack.image.v2 import schema as _schema
 from openstack.image.v2 import service_info as _si
@@ -35,6 +36,11 @@ class Proxy(_base_proxy.BaseImageProxy):
         """Create image resource from attributes
         """
         return self._create(_image.Image, **kwargs)
+
+    def _create_metadata_object(self, **kwargs):
+        """Create image resource from attributes
+        """
+        return self._create(_metadef.Object, **kwargs)
 
     def import_image(
         self, image, method='glance-direct', uri=None,
