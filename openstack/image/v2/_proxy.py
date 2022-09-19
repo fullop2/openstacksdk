@@ -16,6 +16,7 @@ import warnings
 from openstack import exceptions
 from openstack.image import _base_proxy
 from openstack.image.v2 import image as _image
+from openstack.image.v2 import metadef_object as _metadef_object
 from openstack.image.v2 import member as _member
 from openstack.image.v2 import metadef_namespace as _metadef_namespace
 from openstack.image.v2 import schema as _schema
@@ -858,3 +859,17 @@ class Proxy(_base_proxy.BaseImageProxy):
             when no resource can be found.
         """
         return self._get(_si.Import, require_id=False)
+
+    def create_metadata_object(
+        self, namespace, name, **kwargs
+    ):
+        metadata_object_kwargs = dict(properties=kwargs)
+
+        if name:
+            metadata_object_kwargs['name'] = name
+        if namespace:
+            metadata_object_kwargs['namespace'] = namespace
+        if 'properties' in kwargs.keys():
+            metadata_object_kwargs['properties'] = kwargs['properties']
+
+        return self._create(_metadef_object.MetadefObject, **metadata_object_kwargs)
