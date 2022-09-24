@@ -860,16 +860,5 @@ class Proxy(_base_proxy.BaseImageProxy):
         """
         return self._get(_si.Import, require_id=False)
 
-    def create_metadata_object(
-        self, namespace, name, **kwargs
-    ):
-        metadata_object_kwargs = dict(properties=kwargs)
-
-        if name:
-            metadata_object_kwargs['name'] = name
-        if namespace:
-            metadata_object_kwargs['namespace'] = namespace
-        if 'properties' in kwargs.keys():
-            metadata_object_kwargs['properties'] = kwargs['properties']
-
-        return self._create(_metadef_object.MetadefObject, **metadata_object_kwargs)
+    def create_metadata_object(self, **kwargs):
+        return self._create(_metadef_object.MetadefObject, **kwargs)
